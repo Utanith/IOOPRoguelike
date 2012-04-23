@@ -5,6 +5,10 @@ package name.blah;
 
 import java.util.Random;
 
+enum Direction {
+	NORTH, SOUTH, EAST, WEST
+}
+
 /**
  * @author Jett Peterson
  *
@@ -28,11 +32,135 @@ public class RoguelikeMap {
 		
 		Random rand = new Random();
 		
+		int halls, length, dir;
+		halls = 5;
+
+		dir = rand.nextInt(4);
+		length = rand.nextInt(4) + 4;
+		int x = rand.nextInt(12)+6, y = rand.nextInt(12)+6;
+
+		switch(dir)
+		{
+		case 0:	//Go north
+			for(int j = 0; j < length; j++)
+			{
+				if(x+j < 24)
+					map[x+j][y] = ".";
+			}
+			break;
+
+		case 1:	//Go south
+			for(int j = 0; j < length; j++)
+			{
+				if(x-j >= 0)
+					map[x-j][y] = ".";
+			}
+			break;
+
+		case 2: //Go east
+			for(int j = 0; j < length; j++)
+			{
+				if(y+j < 24)
+					map[x][y+j] = ".";
+			}
+			break;
+
+		case 3:	//Go west
+			for(int j = 0; j < length; j++)
+			{
+				if(y-j >= 0)
+					map[x][y-j] = ".";
+			}
+			break;
+		}
+		halls--;
+		
+		while(halls > 0)
+		{
+			x = rand.nextInt(24);
+			y = rand.nextInt(24);
+			if(map[x][y].equals("."))
+			{
+				dir = rand.nextInt(4);
+				switch(dir)
+				{
+				case 0:	//Go north
+					for(int j = 0; j < length; j++)
+					{
+						if(x+j < 24)
+							map[x+j][y] = ".";
+					}
+					break;
+
+				case 1:	//Go south
+					for(int j = 0; j < length; j++)
+					{
+						if(x-j >= 0)
+							map[x-j][y] = ".";
+					}
+					break;
+
+				case 2: //Go east
+					for(int j = 0; j < length; j++)
+					{
+						if(y+j < 24)
+							map[x][y+j] = ".";
+					}
+					break;
+
+				case 3:	//Go west
+					for(int j = 0; j < length; j++)
+					{
+						if(y-j >= 0)
+							map[x][y-j] = ".";
+					}
+					break;
+				}
+				halls--;
+			}
+		}
+		
+		/*
 		for(int i = 11; i < 14; i++)
 		{
 			for(int j = 11; j < 14; j++)
 			{
 				map[i][j] = ".";
+			}
+		}
+		*/
+		
+		for(int i = 1500; i > 1; i--)
+		{
+			x = rand.nextInt(24);
+			y = rand.nextInt(24);
+			
+			if(x < 0)
+				x *= -1;
+			if(y < 0)
+				y *= -1;
+			System.out.println("X: " + x + ", Y: " + y);
+			
+			
+			if((x-1 > 0) && map[x-1][y].equals("."))
+			{
+				//this.pickFeature(x, y, Direction.EAST);
+				map[x][y] = ".";
+			}	
+			else if((x+1 < 24) && map[x+1][y].equals("."))
+			{
+				//this.pickFeature(x, y, Direction.WEST);
+				map[x][y] = ".";
+			}
+			else if((y-1 > 0) && map[x][y-1].equals("."))
+			{
+				//this.pickFeature(x, y, Direction.SOUTH);
+				map[x][y] = ".";
+			}
+			else if((y+1 < 24) && map[x][y+1].equals("."))
+			{
+				//this.pickFeature(x, y, Direction.NORTH);
+				map[x][y] = ".";
 			}
 		}
 		
@@ -50,6 +178,16 @@ public class RoguelikeMap {
 			out += "\n";
 		}
 		return out;
+	}
+	
+	private int checkAdjacent(int x, int y)
+	{
+		return 0;
+	}
+	
+	private void pickFeature(int x, int y, Direction dir)
+	{
+		
 	}
 
 }
