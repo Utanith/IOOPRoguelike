@@ -96,7 +96,7 @@ public class RoguelikeMap {
 		}
 		*/
 		
-		for(int i = 800; i > 1; i--)
+		for(int i = 1500; i > 1; i--)
 		{
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
@@ -108,24 +108,8 @@ public class RoguelikeMap {
 			System.out.println("X: " + x + ", Y: " + y);
 			
 			
-			if((x-1 > 0) && map[x-1][y].equals("."))
+			if(this.checkAdjacent(x, y) > 0)
 			{
-				//this.pickFeature(x, y, Direction.EAST);
-				map[x][y] = ".";
-			}	
-			else if((x+1 < 24) && map[x+1][y].equals("."))
-			{
-				//this.pickFeature(x, y, Direction.WEST);
-				map[x][y] = ".";
-			}
-			else if((y-1 > 0) && map[x][y-1].equals("."))
-			{
-				//this.pickFeature(x, y, Direction.SOUTH);
-				map[x][y] = ".";
-			}
-			else if((y+1 < 24) && map[x][y+1].equals("."))
-			{
-				//this.pickFeature(x, y, Direction.NORTH);
 				map[x][y] = ".";
 			}
 		}
@@ -148,7 +132,39 @@ public class RoguelikeMap {
 	
 	private int checkAdjacent(int x, int y)
 	{
-		return 0;
+		if((x-1 > 0) && map[x-1][y].equals("."))
+		{
+			//this.pickFeature(x, y, Direction.EAST);
+			return 0;
+		}	
+		else if((x+1 < 24) && map[x+1][y].equals("."))
+		{
+			//this.pickFeature(x, y, Direction.WEST);
+			return 1;
+		}
+		else if((y-1 > 0) && map[x][y-1].equals("."))
+		{
+			//this.pickFeature(x, y, Direction.SOUTH);
+			return 2;
+		}
+		else if((y+1 < 24) && map[x][y+1].equals("."))
+		{
+			//this.pickFeature(x, y, Direction.NORTH);
+			return 3;
+		}
+		return -1;
+	}
+	
+	public boolean checkOpen(int x, int y)
+	{
+		if(map[x][y].equals("."))
+			return true;
+		return false;
+	}
+	
+	public void setPlayer(int x, int y)
+	{
+		map[x][y] = "@";
 	}
 	
 	private void pickFeature(int x, int y, Direction dir)
