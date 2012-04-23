@@ -26,59 +26,25 @@ public class RoguelikeMap {
 		{
 			for(int j = 0; j < 24; j++)
 			{
-				map[i][j] = "#";
+				if((i > 2 && i < 21) && j == 11)
+					map[i][j] = ".";
+				else if((j > 3 && j < 20) && i == 11)
+					map[i][j] = ".";
+				else
+					map[i][j] = "#";
 			}
 		}
 		
 		Random rand = new Random();
 		
-		int halls, length, dir;
-		halls = 5;
-
-		dir = rand.nextInt(4);
-		length = rand.nextInt(4) + 4;
-		int x = rand.nextInt(12)+6, y = rand.nextInt(12)+6;
-
-		switch(dir)
-		{
-		case 0:	//Go north
-			for(int j = 0; j < length; j++)
-			{
-				if(x+j < 24)
-					map[x+j][y] = ".";
-			}
-			break;
-
-		case 1:	//Go south
-			for(int j = 0; j < length; j++)
-			{
-				if(x-j >= 0)
-					map[x-j][y] = ".";
-			}
-			break;
-
-		case 2: //Go east
-			for(int j = 0; j < length; j++)
-			{
-				if(y+j < 24)
-					map[x][y+j] = ".";
-			}
-			break;
-
-		case 3:	//Go west
-			for(int j = 0; j < length; j++)
-			{
-				if(y-j >= 0)
-					map[x][y-j] = ".";
-			}
-			break;
-		}
-		halls--;
+		int halls, length, dir, x, y;
+		halls = 2;
 		
 		while(halls > 0)
 		{
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
+			length = rand.nextInt(8) + 4;
 			if(map[x][y].equals("."))
 			{
 				dir = rand.nextInt(4);
@@ -130,7 +96,7 @@ public class RoguelikeMap {
 		}
 		*/
 		
-		for(int i = 1500; i > 1; i--)
+		for(int i = 800; i > 1; i--)
 		{
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
