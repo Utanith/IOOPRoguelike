@@ -3,5 +3,9 @@
 
     <string name="hello">Hello World, Roguelike!</string>
     <string name="app_name">Roguelike-IOOP</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
 
 </resources>

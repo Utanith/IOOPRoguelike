@@ -16,6 +16,8 @@ enum Direction {
 public class RoguelikeMap {
 	
 	String[][] map;
+	int playerX;
+	int playerY;
 	
 	RoguelikeMap()
 	{
@@ -123,7 +125,10 @@ public class RoguelikeMap {
 		{
 			for(int j = 0; j < 24; j++)
 			{
-				out += map[i][j];
+				if(i == playerX && j == playerY)
+					out += "@";
+				else
+					out += map[i][j];
 			}
 			out += "\n";
 		}
@@ -164,12 +169,8 @@ public class RoguelikeMap {
 	
 	public void setPlayer(int x, int y)
 	{
-		map[x][y] = "@";
-	}
-	
-	private void pickFeature(int x, int y, Direction dir)
-	{
-		
+		playerX = x;
+		playerY = y;
 	}
 
 }

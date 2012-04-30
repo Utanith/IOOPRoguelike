@@ -18,6 +18,10 @@ public class Player {
 	Player(RoguelikeMap map)
 	{
 		this.health = 10;
+		if(health > 0)
+		{
+			//This is here to make Java stop complaining, till health does something
+		}
 		
 		int x, y;
 		Random rand = new Random();
@@ -40,37 +44,37 @@ public class Player {
 		switch(dir)
 		{
 		case NORTH:
-			if(map.checkOpen(x, y+1))
+			if(map.checkOpen(this.x-1, this.y))
 			{
-				y++;
-				map.setPlayer(x, y);
+				this.x--;
+				map.setPlayer(this.x, this.y);
 				return true;
 			}
 			break;
 			
 		case SOUTH:
-			if(map.checkOpen(x, y-1))
+			if(map.checkOpen(this.x+1, this.y))
 			{
-				y--;
-				map.setPlayer(x, y);
+				this.x++;
+				map.setPlayer(this.x, this.y);
 				return true;
 			}
 			break;
 			
 		case EAST:
-			if(map.checkOpen(x+1, y))
+			if(map.checkOpen(this.x, this.y+1))
 			{
-				x++;
-				map.setPlayer(x, y);
+				this.y++;
+				map.setPlayer(this.x, this.y);
 				return true;
 			}
 			break;
 			
 		case WEST:
-			if(map.checkOpen(x-1, y))
+			if(map.checkOpen(this.x, this.y-1))
 			{
-				x--;
-				map.setPlayer(x, y);
+				this.y--;
+				map.setPlayer(this.x, this.y);
 				return true;
 			}
 			break;
