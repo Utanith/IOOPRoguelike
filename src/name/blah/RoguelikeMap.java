@@ -52,7 +52,7 @@ public class RoguelikeMap {
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
 			length = rand.nextInt(8) + 4;
-			if(map[x][y].equals("."))
+			if(checkOpen(x,y))
 			{
 				dir = rand.nextInt(4);
 				switch(dir)
@@ -115,17 +115,17 @@ public class RoguelikeMap {
 			System.out.println("X: " + x + ", Y: " + y);
 			
 			
-			if(this.checkAdjacent(x, y) > 0)
+			if(this.checkAdjacent(x, y) >= 0)
 			{
 				map[x][y] = ".";
 			}
-		};
+		}
 		
 		for(int objects = 0; objects < 3; objects++){
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
 			
-			while(map[x][y] != "."){
+			while(!checkOpen(x, y)){
 				x = rand.nextInt(24);
 				y = rand.nextInt(24);
 			}
@@ -134,9 +134,10 @@ public class RoguelikeMap {
 			locations.add(newitem);
 			
 		}
+		
 		x = rand.nextInt(24);
 		y = rand.nextInt(24);
-		while(map[x][y] != "."){
+		while(!checkOpen(x, y)){
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
 		}
@@ -147,7 +148,7 @@ public class RoguelikeMap {
 			x = rand.nextInt(24);
 			y = rand.nextInt(24);
 			
-			while(map[x][y] != "."){
+			while(!checkOpen(x, y)){
 				x = rand.nextInt(24);
 				y = rand.nextInt(24);
 			}

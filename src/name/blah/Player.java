@@ -213,9 +213,16 @@ public class Player {
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	
 	public boolean isgameover(){
 		if(health <= 0)
 			return true;
 		return false;
+	}
+	
+	public int[] getLocation()
+	{
+		int[] out = {x, y};
+		return out;
 	}
 }

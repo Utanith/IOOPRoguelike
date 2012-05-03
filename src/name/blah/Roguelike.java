@@ -81,8 +81,9 @@ public class Roguelike extends Activity {
   		tv.setText(map.toString());
     }
     
+    /* This function is called repeatedly when scrolling through debug messages
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent msg) {
+    public boolean onKeyUp(int keyCode, KeyEvent msg) {
     	
     	switch(keyCode)
     	{
@@ -104,8 +105,10 @@ public class Roguelike extends Activity {
     	}
     	this.redraw();
     	dbgMsg.append("Player health: " + plr.getHealth() + "\n");
+    	dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
     	return true;
     }
+    */
     
     public void movementKeys(View v)
     {
@@ -128,6 +131,8 @@ public class Roguelike extends Activity {
     		break;
     	}
     	this.redraw();
+    	dbgMsg.append("Player health: " + plr.getHealth() + "\n");
+    	dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
     }
     
     private void redraw()
