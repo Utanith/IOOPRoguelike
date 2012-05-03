@@ -33,7 +33,7 @@ public class RoguelikeMap {
 				else if((j > 3 && j < 20) && i == 11)
 					map[i][j] = ".";
 				else
-					map[i][j] = "#";
+					map[i][j] = " ";
 			}
 		}
 		
@@ -162,7 +162,10 @@ public class RoguelikeMap {
 	
 	public boolean checkOpen(int x, int y)
 	{
-		if(map[x][y].equals("."))
+		if(x < 0 || x > 23 || y < 0 || y > 23)
+			return false;
+		
+		if(!map[x][y].equals(" "))
 			return true;
 		return false;
 	}
