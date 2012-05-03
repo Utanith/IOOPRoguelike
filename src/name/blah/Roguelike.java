@@ -131,8 +131,8 @@ public class Roguelike extends Activity {
     		break;
     	}
     	this.redraw();
-    	dbgMsg.append("Player health: " + plr.getHealth() + "\n");
-    	dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
+    	dbgMsg.setText("Health: " + plr.getHealth() + "\n");
+    	//dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
     }
     
     private void redraw()
