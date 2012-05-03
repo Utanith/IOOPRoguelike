@@ -1,2 +1,4 @@
 *.class
 gen/*
+bin/classes.dex
+bin/resources.ap_

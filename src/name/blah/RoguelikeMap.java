@@ -269,7 +269,7 @@ public class RoguelikeMap {
 					map[i][j] = " ";
 			}
 		}
-		map[1][1] = "game over, you suck";
+		map[1][1] = "GAME OVER";
 	}
 
 }

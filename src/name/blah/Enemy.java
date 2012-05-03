@@ -29,7 +29,6 @@ public class Enemy {
 			player.setHealth(player.getHealth() - (rand.nextInt(this.damagemax - this.damagemin) + damagemax));
 			return;
 		}
-			player.setHealth(player.getHealth() - (rand.nextInt(this.damagemax - this.damagemin) + damagemax));
 		if(this.x > x && map.location(this.x-1, this.y) == "."){
 			this.x--;
 			return;

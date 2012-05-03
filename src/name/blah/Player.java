@@ -19,11 +19,7 @@ public class Player {
 	
 	Player(RoguelikeMap map)
 	{
-		this.setHealth(10);
-		if(getHealth() > 0)
-		{
-			//This is here to make Java stop complaining, till health does something
-		}
+		this.setHealth(20);
 		
 		int x, y;
 		Random rand = new Random();
@@ -53,6 +49,14 @@ public class Player {
 		case NORTH:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
+			if(map.isMonster(this.x-1, this.y)){
+				for(int i = 0; i < map.monsters.size(); i++){
+					if(map.monsters.get(i).x == x-1 && map.monsters.get(i).y == y)
+						
+				}
+					
+				map.isMonster(x-1, y). -= 2;
+			}
 			if(map.isItem(this.x-1, this.y)){
 				if(map.itemAt(this.x-1, this.y) == "k"){
 					this.setHealth(this.getHealth() + 5);
