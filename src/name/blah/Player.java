@@ -15,12 +15,16 @@ public class Player {
 	
 	private int x;
 	private int y;
-	public int health;
+	private int health;
+	private int minDamage;
+	private int maxDamage;
 	
 	Player(RoguelikeMap map)
 	{
 		this.setHealth(20);
 		
+		minDamage = 3;
+		maxDamage = 6;
 		int x, y;
 		Random rand = new Random();
 		x = rand.nextInt(24);
@@ -51,11 +55,12 @@ public class Player {
 				map.monsters.get(i).move(this.x, this.y, map, this);
 			if(map.isMonster(this.x-1, this.y)){
 				for(int i = 0; i < map.monsters.size(); i++){
-					if(map.monsters.get(i).x == x-1 && map.monsters.get(i).y == y)
-						
+					if(map.monsters.get(i).x == x-1 && map.monsters.get(i).y == y){
+						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
+						if(map.monsters.get(i).health <= 0)
+							map.monsters.remove(i);
+					}
 				}
-					
-				map.isMonster(x-1, y). -= 2;
 			}
 			if(map.isItem(this.x-1, this.y)){
 				if(map.itemAt(this.x-1, this.y) == "k"){
@@ -86,6 +91,15 @@ public class Player {
 		case SOUTH:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
+			if(map.isMonster(this.x+1, this.y)){
+				for(int i = 0; i < map.monsters.size(); i++){
+					if(map.monsters.get(i).x == x+1 && map.monsters.get(i).y == y){
+						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
+						if(map.monsters.get(i).health <= 0)
+							map.monsters.remove(i);
+					}
+				}
+			}
 			if(map.isItem(this.x+1, this.y)){
 				if(map.itemAt(this.x+1, this.y) == "k"){
 					this.setHealth(this.getHealth() + 5);
@@ -115,6 +129,15 @@ public class Player {
 		case EAST:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
+			if(map.isMonster(this.x, this.y+1)){
+				for(int i = 0; i < map.monsters.size(); i++){
+					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y+1){
+						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
+						if(map.monsters.get(i).health <= 0)
+							map.monsters.remove(i);
+					}
+				}
+			}
 			if(map.isItem(this.x, this.y+1)){
 				if(map.itemAt(this.x, this.y+1) == "k"){
 					this.setHealth(this.getHealth() + 5);
@@ -144,6 +167,15 @@ public class Player {
 		case WEST:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
+			if(map.isMonster(this.x, this.y-1)){
+				for(int i = 0; i < map.monsters.size(); i++){
+					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y-1){
+						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
+						if(map.monsters.get(i).health <= 0)
+							map.monsters.remove(i);
+					}
+				}
+			}
 			if(map.isItem(this.x, this.y-1)){
 				if(map.itemAt(this.x, this.y-1) == "k"){
 					this.setHealth(this.getHealth() + 5);
