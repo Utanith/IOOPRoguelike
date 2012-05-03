@@ -3,6 +3,7 @@
  */
 package name.blah;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 enum Direction {
@@ -15,31 +16,35 @@ enum Direction {
  */
 public class RoguelikeMap {
 	
+	Random rand = new Random();
 	String[][] map;
 	int playerX;
 	int playerY;
+	LinkedList<Item> locations = new LinkedList<Item>();
+	LinkedList<Enemy> monsters = new LinkedList<Enemy>();
 	
 	RoguelikeMap()
 	{
 		map = new String[24][24];
-		
+		int x = rand.nextInt(16)-8;
+		int y = rand.nextInt(16)-8;
 		//Fill the map with the base tile - Impassable terrain
 		for(int i = 0; i < 24; i++)
 		{
 			for(int j = 0; j < 24; j++)
 			{
-				if((i > 2 && i < 21) && j == 11)
+				if((i > 2 && i < 21) && j == 11 + x)
 					map[i][j] = ".";
-				else if((j > 3 && j < 20) && i == 11)
+				else if((j > 3 && j < 20) && i == 11 + y)
 					map[i][j] = ".";
 				else
 					map[i][j] = " ";
 			}
 		}
 		
-		Random rand = new Random();
+
 		
-		int halls, length, dir, x, y;
+		int halls, length, dir;
 		halls = 2;
 		
 		while(halls > 0)
@@ -114,6 +119,42 @@ public class RoguelikeMap {
 			{
 				map[x][y] = ".";
 			}
+		};
+		
+		for(int objects = 0; objects < 3; objects++){
+			x = rand.nextInt(24);
+			y = rand.nextInt(24);
+			
+			while(map[x][y] != "."){
+				x = rand.nextInt(24);
+				y = rand.nextInt(24);
+			}
+			
+			Item newitem = new Item(x, y, "k");
+			locations.add(newitem);
+			
+		}
+		x = rand.nextInt(24);
+		y = rand.nextInt(24);
+		while(map[x][y] != "."){
+			x = rand.nextInt(24);
+			y = rand.nextInt(24);
+		}
+		Item newitem = new Item(x, y, ">");
+		locations.add(newitem);
+		
+		for(int mon = 0; mon < 6; mon++){
+			x = rand.nextInt(24);
+			y = rand.nextInt(24);
+			
+			while(map[x][y] != "."){
+				x = rand.nextInt(24);
+				y = rand.nextInt(24);
+			}
+			
+			Enemy newenemy = new Enemy(x, y, rand.nextInt(3), rand.nextInt(2), rand.nextInt(2)+2, "&");
+			monsters.add(newenemy);
+			
 		}
 		
 	}
@@ -127,6 +168,13 @@ public class RoguelikeMap {
 			{
 				if(i == playerX && j == playerY)
 					out += "@";
+				else if(isItem(i, j) || isMonster(i, j)){
+					if(isMonster(i, j))
+						out += monsterAt(i, j);
+					if(isItem(i, j))
+						out += itemAt(i, j);
+					
+				}
 				else
 					out += map[i][j];
 			}
@@ -174,6 +222,54 @@ public class RoguelikeMap {
 	{
 		playerX = x;
 		playerY = y;
+	}
+	
+	public boolean isItem(int x, int y){
+		for(int i = 0; i < locations.size(); i++){
+			if(locations.get(i).getX() == x && locations.get(i).getY() == y)
+				return true;
+		}
+		return false;
+	}
+	
+	public String itemAt(int x, int y){
+		for(int i = 0; i < locations.size(); i++){
+			if(locations.get(i).getX() == x && locations.get(i).getY() == y)
+				return locations.get(i).getId();
+		}
+		return "?";
+	}
+	
+	public String location(int x, int y){
+		if(x > 23 || y > 23)
+			return "?";
+		return map[x][y];
+	}
+	public boolean isMonster(int x, int y){
+		for(int i = 0; i < monsters.size(); i++){
+			if(monsters.get(i).x == x && monsters.get(i).y == y)
+				return true;
+		}
+		return false;
+	}
+	
+	public String monsterAt(int x, int y){
+		for(int i = 0; i < monsters.size(); i++){
+			if(monsters.get(i).x == x && monsters.get(i).y == y)
+				return monsters.get(i).id;
+		}
+		return "?";
+	}
+	
+	public void setGameOver(){
+		for(int i = 0; i < 24; i++)
+		{
+			for(int j = 0; j < 24; j++)
+			{
+					map[i][j] = " ";
+			}
+		}
+		map[1][1] = "game over, you suck";
 	}
 
 }
