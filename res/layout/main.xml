@@ -17,18 +17,48 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".90"
                 android:text="TextView" />
+
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight=".30" >
+
+                <TextView
+                    android:id="@+id/debugMsg"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.10"
+                    android:text="TextView" />
+
+            </ScrollView>
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight=".10"
             android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restart"
+                    android:onClick="restart" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="fill_parent"
@@ -43,6 +73,7 @@
                     android:gravity="center_horizontal" >
 
                     <Button
+                        style="?android:attr/buttonStyleSmall"
                         android:id="@+id/btnup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -58,6 +89,7 @@
                     android:gravity="center_horizontal" >
 
                     <Button
+                        style="?android:attr/buttonStyleSmall"
                         android:id="@+id/btnleft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -65,6 +97,7 @@
                         android:text="@string/left" />
 
                     <Button
+                        style="?android:attr/buttonStyleSmall"
                         android:id="@+id/btnright"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,6 +113,7 @@
                     android:gravity="center_horizontal" >
 
                     <Button
+                        style="?android:attr/buttonStyleSmall"
                         android:id="@+id/btndown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

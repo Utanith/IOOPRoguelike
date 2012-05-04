@@ -5,6 +5,8 @@ package name.blah;
 
 import java.util.Random;
 
+import android.widget.ScrollView;
+
 /**
  * @author Jett Peterson
  *
@@ -274,9 +276,16 @@ public class Player {
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	
 	public boolean isgameover(){
 		if(health <= 0)
 			return true;
 		return false;
+	}
+	
+	public int[] getLocation()
+	{
+		int[] out = {x, y};
+		return out;
 	}
 }
