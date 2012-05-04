@@ -11,8 +11,11 @@ public class Enemy {
 	int floor;
 	boolean playerseen;
 	String id;
-	public Enemy(int x, int y, int health, int damagemin, int damagemax, String id, int level) {
+	private Notifier display;
+	
+	public Enemy(int x, int y, int health, int damagemin, int damagemax, String id, int level, Notifier display) {
 		super();
+		this.display = display;
 		this.x = x;
 		this.y = y;
 		this.health = health;
@@ -128,11 +131,15 @@ public class Enemy {
 		if(playerseen == false)
 			return;
 		if((this.x + 1 == x || this.x - 1 == x) && this.y == y){
-			player.setHealth(player.getHealth() - (rand.nextInt(this.damagemax - this.damagemin) + damagemax));
+			int dmg = (rand.nextInt(this.damagemax - this.damagemin) + damagemax);
+			player.setHealth(player.getHealth() - dmg);
+			display.addItem("Monster did " + dmg + " damage.", player);
 			return;
 		}
 		if((this.y + 1 == y || this.y - 1 == y) && this.x == x){
-			player.setHealth(player.getHealth() - (rand.nextInt(this.damagemax - this.damagemin) + damagemax));
+			int dmg = (rand.nextInt(this.damagemax - this.damagemin) + damagemax);
+			player.setHealth(player.getHealth() - dmg);
+			display.addItem("Monster did " + dmg + " damage.", player);
 			return;
 		}
 		if(this.x > x && map.location(this.x-1, this.y) == "."){

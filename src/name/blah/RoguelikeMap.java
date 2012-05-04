@@ -24,9 +24,11 @@ public class RoguelikeMap {
 	int playerY;
 	LinkedList<Item> locations = new LinkedList<Item>();
 	LinkedList<Enemy> monsters = new LinkedList<Enemy>();
+	private Notifier display;
 	
-	RoguelikeMap()
+	RoguelikeMap(Notifier display)
 	{
+		this.display = display;
 		for(level = 0; level < 3; level++){
 			generateFloor();
 		}
@@ -117,7 +119,7 @@ public class RoguelikeMap {
 	}
 	
 	public String location(int x, int y){
-		if(x > 23 || y > 23)
+		if(x > 23 || y > 23 || x < 0 || y < 0)
 			return "?";
 		return map.get(level)[x][y];
 	}
@@ -288,7 +290,7 @@ public class RoguelikeMap {
 				y = rand.nextInt(24);
 			}
 			
-			Enemy newenemy = new Enemy(x, y, rand.nextInt(3)+3, rand.nextInt(2), rand.nextInt(2)+2, "&", level);
+			Enemy newenemy = new Enemy(x, y, rand.nextInt(3)+3, rand.nextInt(2), rand.nextInt(2)+2, "&", level, display);
 			monsters.add(newenemy);
 			
 		}

@@ -18,10 +18,12 @@ public class Player {
 	private int health;
 	private int minDamage;
 	private int maxDamage;
+	private Notifier display;
 	
-	Player(RoguelikeMap map)
+	Player(RoguelikeMap map, Notifier display)
 	{
 		this.setHealth(200);
+		this.display = display;
 		
 		minDamage = 3;
 		maxDamage = 6;

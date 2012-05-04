@@ -17,6 +17,7 @@ public class Roguelike extends Activity {
 	private RoguelikeMap map;
 	private Player plr;
 	private TextView dbgMsg;
+	private Notifier display;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,11 +25,11 @@ public class Roguelike extends Activity {
         setContentView(R.layout.main);
 
         tv = (TextView) findViewById(R.id.textView1);
-        dbgMsg = (TextView) findViewById(R.id.debugMsg);
-        map = new RoguelikeMap();
-        plr = new Player(map);
-        dbgMsg.setText("Started game...\n");
-        dbgMsg.append("Player health: " + plr.getHealth() + "\n");
+        display = new Notifier((TextView) findViewById(R.id.debugMsg));
+        map = new RoguelikeMap(display);
+        plr = new Player(map, display);
+        
+        display.addItem("Starting game...", plr);
         
         TextView tmp = new TextView(this);
         tmp.setText("Started.");
@@ -43,7 +44,7 @@ public class Roguelike extends Activity {
     public void regen(View view)
     {
     	map = null;
-    	map = new RoguelikeMap();
+    	map = new RoguelikeMap(display);
     	tv.setText(map.toString());
     }
     
@@ -63,7 +64,7 @@ public class Roguelike extends Activity {
      default:
     	tv.setText("Regenerating...");
       	map = null;
-  		map = new RoguelikeMap();
+  		map = new RoguelikeMap(display);
   		tv.setText(map.toString());
   		return true;
      }
@@ -75,9 +76,10 @@ public class Roguelike extends Activity {
     	tv.setText("Regenerating...");
       	map = null;
       	plr = null;
-  		map = new RoguelikeMap();
-  		plr = new Player(map);
-  		dbgMsg.append("Started game...\n");
+  		map = new RoguelikeMap(display);
+  		plr = new Player(map, display);
+  		display.clear();
+  		display.addItem("Started game...", plr);
   		tv.setText(map.toString());
     }
     
@@ -131,7 +133,6 @@ public class Roguelike extends Activity {
     		break;
     	}
     	this.redraw();
-    	dbgMsg.setText("Health: " + plr.getHealth() + "\n");
     	//dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
     }
     
