@@ -19,7 +19,7 @@ public class Player {
 	
 	Player(RoguelikeMap map)
 	{
-		this.setHealth(20);
+		this.setHealth(200);
 		
 		minDamage = 3;
 		maxDamage = 6;
@@ -51,24 +51,40 @@ public class Player {
 		case NORTH:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
-			if(map.isMonster(this.x-1, this.y)){
+			if(map.isMonster(this.x-1, this.y, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x-1 && map.monsters.get(i).y == y){
 						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
 						if(map.monsters.get(i).health <= 0)
 							map.monsters.remove(i);
+						return true;
 					}
 				}
 			}
-			if(map.isItem(this.x-1, this.y)){
-				if(map.itemAt(this.x-1, this.y) == "k"){
+			if(map.isItem(this.x-1, this.y, map.level)){
+				if(map.itemAt(this.x-1, this.y, map.level) == "k"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x-1 && map.locations.get(i).getY() == y)
 							map.locations.remove(i);
 					}
 				}
-				if(map.itemAt(this.x-1, this.y) == ">"){
+				if(map.itemAt(this.x-1, this.y, map.level) == ">"){
+					map.level++;
+					if(map.level > map.maxlevel){
+						map.generateFloor();
+						map.maxlevel++;
+					}
+					x = rand.nextInt(24);
+					y = rand.nextInt(24);
+					while(map.location(x, y) != "."){
+						x = rand.nextInt(24);
+						y = rand.nextInt(24);
+					}
+					map.setPlayer(x, y);
+				}
+				if(map.itemAt(this.x-1, this.y, map.level) == "<"){
+					map.level--;
 					x = rand.nextInt(24);
 					y = rand.nextInt(24);
 					while(map.location(x, y) != "."){
@@ -89,24 +105,40 @@ public class Player {
 		case SOUTH:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
-			if(map.isMonster(this.x+1, this.y)){
+			if(map.isMonster(this.x+1, this.y, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x+1 && map.monsters.get(i).y == y){
 						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
 						if(map.monsters.get(i).health <= 0)
 							map.monsters.remove(i);
+						return true;
 					}
 				}
 			}
-			if(map.isItem(this.x+1, this.y)){
-				if(map.itemAt(this.x+1, this.y) == "k"){
+			if(map.isItem(this.x+1, this.y, map.level)){
+				if(map.itemAt(this.x+1, this.y, map.level) == "k"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x+1 && map.locations.get(i).getY() == y)
 							map.locations.remove(i);
 					}
 				}
-				if(map.itemAt(this.x+1, this.y) == ">"){
+				if(map.itemAt(this.x+1, this.y, map.level) == ">"){
+					map.level++;
+					if(map.level > map.maxlevel){
+						map.generateFloor();
+						map.maxlevel++;
+					}
+					x = rand.nextInt(24);
+					y = rand.nextInt(24);
+					while(map.location(x, y) != "."){
+						x = rand.nextInt(24);
+						y = rand.nextInt(24);
+					}
+					map.setPlayer(x, y);
+				}
+				if(map.itemAt(this.x+1, this.y, map.level) == "<"){
+					map.level--;
 					x = rand.nextInt(24);
 					y = rand.nextInt(24);
 					while(map.location(x, y) != "."){
@@ -127,24 +159,40 @@ public class Player {
 		case EAST:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
-			if(map.isMonster(this.x, this.y+1)){
+			if(map.isMonster(this.x, this.y+1, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y+1){
 						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
 						if(map.monsters.get(i).health <= 0)
 							map.monsters.remove(i);
+						return true;
 					}
 				}
 			}
-			if(map.isItem(this.x, this.y+1)){
-				if(map.itemAt(this.x, this.y+1) == "k"){
+			if(map.isItem(this.x, this.y+1, map.level)){
+				if(map.itemAt(this.x, this.y+1, map.level) == "k"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y+1)
 							map.locations.remove(i);
 					}
 				}
-				if(map.itemAt(this.x, this.y+1) == ">"){
+				if(map.itemAt(this.x, this.y+1, map.level) == ">"){
+					map.level++;
+					if(map.level > map.maxlevel){
+						map.generateFloor();
+						map.maxlevel++;
+					}
+					x = rand.nextInt(24);
+					y = rand.nextInt(24);
+					while(map.location(x, y) != "."){
+						x = rand.nextInt(24);
+						y = rand.nextInt(24);
+					}
+					map.setPlayer(x, y);
+				}
+				if(map.itemAt(this.x, this.y+1, map.level) == "<"){
+					map.level--;
 					x = rand.nextInt(24);
 					y = rand.nextInt(24);
 					while(map.location(x, y) != "."){
@@ -165,25 +213,40 @@ public class Player {
 		case WEST:
 			for(int i = 0; i < map.monsters.size(); i++)
 				map.monsters.get(i).move(this.x, this.y, map, this);
-			if(map.isMonster(this.x, this.y-1)){
+			if(map.isMonster(this.x, this.y-1, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y-1){
 						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
 						if(map.monsters.get(i).health <= 0)
 							map.monsters.remove(i);
+						return true;
 					}
 				}
 			}
-			if(map.isItem(this.x, this.y-1)){
-				if(map.itemAt(this.x, this.y-1) == "k"){
+			if(map.isItem(this.x, this.y-1, map.level)){
+				if(map.itemAt(this.x, this.y-1, map.level) == "k"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y-1)
 							map.locations.remove(i);
 					}
 				}
-				if(map.itemAt(this.x, this.y-1) == ">"){
-					map = new RoguelikeMap();
+				if(map.itemAt(this.x, this.y-1, map.level) == ">"){
+					map.level++;
+					if(map.level > map.maxlevel){
+						map.generateFloor();
+						map.maxlevel++;
+					}
+					x = rand.nextInt(24);
+					y = rand.nextInt(24);
+					while(map.location(x, y) != "."){
+						x = rand.nextInt(24);
+						y = rand.nextInt(24);
+					}
+					map.setPlayer(x, y);
+				}
+				if(map.itemAt(this.x, this.y-1, map.level) == "<"){
+					map.level--;
 					x = rand.nextInt(24);
 					y = rand.nextInt(24);
 					while(map.location(x, y) != "."){

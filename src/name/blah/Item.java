@@ -22,10 +22,12 @@ public class Item {
 	int x;
 	int y;
 	String id;
-	public Item(int x, int y, String id) {
+	int floor;
+	public Item(int x, int y, String id, int floor) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.id = id;
+		this.floor = floor;
 	}
 }
