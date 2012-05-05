@@ -131,7 +131,8 @@ public class Roguelike extends Activity {
     		break;
     	}
     	this.redraw();
-    	dbgMsg.setText("Health: " + plr.getHealth() + "\n");
+    	dbgMsg.setText(map.message + "\nHealth: " + plr.getHealth() + "\n");
+    	map.message = " ";
     	//dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
     }
     

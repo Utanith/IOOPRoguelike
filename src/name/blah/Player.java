@@ -3,7 +3,6 @@
  */
 package name.blah;
 
-import java.util.Random;
 
 import android.widget.ScrollView;
 
@@ -26,14 +25,13 @@ public class Player {
 		minDamage = 3;
 		maxDamage = 6;
 		int x, y;
-		Random rand = new Random();
-		x = rand.nextInt(24);
-		y = rand.nextInt(24);
+		x = map.getRand(0, 24);
+		y = map.getRand(0, 24);
 		
 		while(!map.checkOpen(x, y))
 		{
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = map.getRand(0, 24);
+			y = map.getRand(0, 24);
 		}
 		
 		this.x = x;
@@ -47,24 +45,28 @@ public class Player {
 			map.setGameOver();
 			return false;
 		}
-		Random rand = new Random();
+		map.turn++;
 		switch(dir)
 		{
 		case NORTH:
-			for(int i = 0; i < map.monsters.size(); i++)
-				map.monsters.get(i).move(this.x, this.y, map, this);
 			if(map.isMonster(this.x-1, this.y, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x-1 && map.monsters.get(i).y == y){
-						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
-						if(map.monsters.get(i).health <= 0)
+						int damage = map.getRand(minDamage , maxDamage);
+						map.setMessage("you hit the " + map.monsters.get(i).name + " for " + damage + " damage\n" );
+						map.monsters.get(i).health -= damage;
+						if(map.monsters.get(i).health <= 0){
+							map.setMessage("you vanquish the " + map.monsters.get(i).name + "\n" );
 							map.monsters.remove(i);
+						}
+						for(int j = 0; j < map.monsters.size(); j++)
+							map.monsters.get(j).move(this.x, this.y, map, this, true);
 						return true;
 					}
 				}
 			}
 			if(map.isItem(this.x-1, this.y, map.level)){
-				if(map.itemAt(this.x-1, this.y, map.level) == "k"){
+				if(map.itemAt(this.x-1, this.y, map.level) == "#"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x-1 && map.locations.get(i).getY() == y)
@@ -77,21 +79,21 @@ public class Player {
 						map.generateFloor();
 						map.maxlevel++;
 					}
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
 				if(map.itemAt(this.x-1, this.y, map.level) == "<"){
 					map.level--;
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == ">" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
@@ -100,25 +102,34 @@ public class Player {
 			{
 				this.x--;
 				map.setPlayer(this.x, this.y);
+				for(int i = 0; i < map.monsters.size(); i++)
+					map.monsters.get(i).move(this.x, this.y, map, this, true);
 				return true;
 			}
+			
+			for(int i = 0; i < map.monsters.size(); i++)
+				map.monsters.get(i).move(this.x, this.y, map, this, true);
 			break;
 			
 		case SOUTH:
-			for(int i = 0; i < map.monsters.size(); i++)
-				map.monsters.get(i).move(this.x, this.y, map, this);
 			if(map.isMonster(this.x+1, this.y, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x+1 && map.monsters.get(i).y == y){
-						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
-						if(map.monsters.get(i).health <= 0)
+						int damage = map.getRand(minDamage, maxDamage);
+						map.setMessage("you hit the " + map.monsters.get(i).name + " for " + damage + " damage\n" );
+						map.monsters.get(i).health -= damage;
+						if(map.monsters.get(i).health <= 0){
+							map.setMessage("you vanquish the " + map.monsters.get(i).name + "\n" );
 							map.monsters.remove(i);
+						}
+						for(int j = 0; j < map.monsters.size(); j++)
+							map.monsters.get(j).move(this.x, this.y, map, this, true);
 						return true;
 					}
 				}
 			}
 			if(map.isItem(this.x+1, this.y, map.level)){
-				if(map.itemAt(this.x+1, this.y, map.level) == "k"){
+				if(map.itemAt(this.x+1, this.y, map.level) == "#"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x+1 && map.locations.get(i).getY() == y)
@@ -131,21 +142,21 @@ public class Player {
 						map.generateFloor();
 						map.maxlevel++;
 					}
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
 				if(map.itemAt(this.x+1, this.y, map.level) == "<"){
 					map.level--;
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
@@ -154,25 +165,36 @@ public class Player {
 			{
 				this.x++;
 				map.setPlayer(this.x, this.y);
+				for(int i = 0; i < map.monsters.size(); i++)
+					map.monsters.get(i).move(this.x, this.y, map, this, true);
 				return true;
 			}
+			
+			for(int i = 0; i < map.monsters.size(); i++)
+				map.monsters.get(i).move(this.x, this.y, map, this, true);
+			
 			break;
 			
 		case EAST:
-			for(int i = 0; i < map.monsters.size(); i++)
-				map.monsters.get(i).move(this.x, this.y, map, this);
+
 			if(map.isMonster(this.x, this.y+1, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y+1){
-						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
-						if(map.monsters.get(i).health <= 0)
+						int damage = map.getRand(minDamage, maxDamage);
+						map.setMessage("you hit the " + map.monsters.get(i).name + " for " + damage + " damage\n" );
+						map.monsters.get(i).health -= damage;
+						if(map.monsters.get(i).health <= 0){
+							map.setMessage("you vanquish the " + map.monsters.get(i).name + "\n" );
 							map.monsters.remove(i);
+						}
+						for(int j = 0; j < map.monsters.size(); j++)
+							map.monsters.get(j).move(this.x, this.y, map, this, true);
 						return true;
 					}
 				}
 			}
 			if(map.isItem(this.x, this.y+1, map.level)){
-				if(map.itemAt(this.x, this.y+1, map.level) == "k"){
+				if(map.itemAt(this.x, this.y+1, map.level) == "#"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y+1)
@@ -185,21 +207,23 @@ public class Player {
 						map.generateFloor();
 						map.maxlevel++;
 					}
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
 				if(map.itemAt(this.x, this.y+1, map.level) == "<"){
 					map.level--;
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					x = map.getRand(0, 24);
+					y = map.getRand(0, 24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
@@ -208,25 +232,35 @@ public class Player {
 			{
 				this.y++;
 				map.setPlayer(this.x, this.y);
+				for(int i = 0; i < map.monsters.size(); i++)
+					map.monsters.get(i).move(this.x, this.y, map, this, true);
 				return true;
 			}
+			
+			for(int i = 0; i < map.monsters.size(); i++)
+				map.monsters.get(i).move(this.x, this.y, map, this, true);
+			
 			break;
 			
 		case WEST:
-			for(int i = 0; i < map.monsters.size(); i++)
-				map.monsters.get(i).move(this.x, this.y, map, this);
 			if(map.isMonster(this.x, this.y-1, map.level)){
 				for(int i = 0; i < map.monsters.size(); i++){
 					if(map.monsters.get(i).x == x && map.monsters.get(i).y == y-1){
-						map.monsters.get(i).health -= (rand.nextInt(maxDamage - minDamage) + minDamage);
-						if(map.monsters.get(i).health <= 0)
+						int damage = map.getRand(minDamage, maxDamage);
+						map.setMessage("you hit the " + map.monsters.get(i).name + " for " + damage + " damage\n" );
+						map.monsters.get(i).health -= damage;
+						if(map.monsters.get(i).health <= 0){
+							map.setMessage("you vanquish the " + map.monsters.get(i).name + "\n" );
 							map.monsters.remove(i);
+						}
+						for(int j = 0; j < map.monsters.size(); j++)
+							map.monsters.get(j).move(this.x, this.y, map, this, true);
 						return true;
 					}
 				}
 			}
 			if(map.isItem(this.x, this.y-1, map.level)){
-				if(map.itemAt(this.x, this.y-1, map.level) == "k"){
+				if(map.itemAt(this.x, this.y-1, map.level) == "#"){
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y-1)
@@ -239,21 +273,21 @@ public class Player {
 						map.generateFloor();
 						map.maxlevel++;
 					}
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
 				if(map.itemAt(this.x, this.y-1, map.level) == "<"){
 					map.level--;
-					x = rand.nextInt(24);
-					y = rand.nextInt(24);
-					while(map.location(x, y) != "."){
-						x = rand.nextInt(24);
-						y = rand.nextInt(24);
+					for(int i = 0; i < map.locations.size(); i++){
+						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
+							x = map.locations.get(i).x;
+							y = map.locations.get(i).y;
+						}
 					}
 					map.setPlayer(x, y);
 				}
@@ -262,8 +296,14 @@ public class Player {
 			{
 				this.y--;
 				map.setPlayer(this.x, this.y);
+				for(int i = 0; i < map.monsters.size(); i++)
+					map.monsters.get(i).move(this.x, this.y, map, this, true);
 				return true;
 			}
+			
+			for(int i = 0; i < map.monsters.size(); i++)
+				map.monsters.get(i).move(this.x, this.y, map, this, true);
+			
 			break;
 		}
 		return false;

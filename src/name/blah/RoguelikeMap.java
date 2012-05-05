@@ -3,12 +3,14 @@
  */
 package name.blah;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Random;
 
 enum Direction {
 	NORTH, SOUTH, EAST, WEST
 }
+
 
 /**
  * @author Jett Peterson
@@ -18,20 +20,36 @@ public class RoguelikeMap {
 	
 	Random rand = new Random();
 	LinkedList<String[][]> map = new LinkedList<String[][]>();
+	String message = " ";
+	int turn;
 	int level;
 	int maxlevel;
 	int playerX;
 	int playerY;
+	private long oldseed = 0;
 	LinkedList<Item> locations = new LinkedList<Item>();
 	LinkedList<Enemy> monsters = new LinkedList<Enemy>();
 	
+	public int getRand(int min, int max){
+		Date now = new Date();
+		long seed = now.getTime()	+ oldseed;
+		oldseed = seed;
+ 
+		Random randomizer = new Random(seed);
+		int n = max - min;
+		int i = randomizer.nextInt(n);
+		if (i < 0)
+			i = -i;
+		return min + i;
+	}
+ 
+	
 	RoguelikeMap()
 	{
-		for(level = 0; level < 3; level++){
-			generateFloor();
-		}
+		generateFloor();
 		level = 0;
-		maxlevel = 2;
+		maxlevel = 0;
+		turn = 0;
 		
 	}
 	
@@ -42,17 +60,21 @@ public class RoguelikeMap {
 		{
 			for(int j = 0; j < 24; j++)
 			{
-				if(i == playerX && j == playerY)
-					out += "@";
-				else if(isItem(i, j, level) || isMonster(i, j, level)){
-					if(isMonster(i, j, level))
-						out += monsterAt(i, j, level);
-					else if(isItem(i, j, level))
-						out += itemAt(i, j, level);
-					
+				if((Math.pow(i - playerX, 2) + Math.pow(j - playerY, 2)) <= 25 && (Math.pow(i - playerX, 2) + Math.pow(j - playerY, 2)) >= -25){
+					if(i == playerX && j == playerY)//if(isLit(playerX, playerY, i, j)){
+						out += "@";
+					else if(isItem(i, j, level) || isMonster(i, j, level)){
+						if(isMonster(i, j, level))
+							out += monsterAt(i, j, level);
+						else if(isItem(i, j, level))
+							out += itemAt(i, j, level);
+						
+					}
+					else
+						out += map.get(level)[i][j];
+				}else{
+					out += " ";
 				}
-				else
-					out += map.get(level)[i][j];
 			}
 			out += "\n";
 		}
@@ -150,8 +172,8 @@ public class RoguelikeMap {
 
 	public void generateFloor(){
 		String[][] floor = new String[24][24];
-		int x = rand.nextInt(16)-8;
-		int y = rand.nextInt(16)-8;
+		int x = getRand(8, 16);
+		int y = getRand(8, 16);
 		//Fill the map with the base tile - Impassable terrain
 		for(int i = 0; i < 24; i++)
 		{
@@ -173,12 +195,12 @@ public class RoguelikeMap {
 		
 		while(halls > 0)
 		{
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
-			length = rand.nextInt(8) + 4;
+			x = getRand(0, 24);
+			y = getRand(0, 24);
+			length = getRand(4, 8);
 			if(checkOpen(x,y))
 			{
-				dir = rand.nextInt(4);
+				dir = getRand(0, 4);
 				switch(dir)
 				{
 				case 0:	//Go north
@@ -229,8 +251,8 @@ public class RoguelikeMap {
 		
 		for(int i = 1500; i > 1; i--)
 		{
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = getRand(0, 24);
+			y = getRand(0, 24);
 			
 			if(x < 0)
 				x *= -1;
@@ -246,51 +268,91 @@ public class RoguelikeMap {
 		}
 		
 		for(int objects = 0; objects < 3; objects++){
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = getRand(0, 24);
+			y = getRand(0, 24);
 			
 			while(!checkOpen(x, y)){
-				x = rand.nextInt(24);
-				y = rand.nextInt(24);
+				x = getRand(0, 24);
+				y = getRand(0, 24);
 			}
 			
-			Item newitem = new Item(x, y, "k", level);
+			Item newitem = new Item(x, y, "#", level);
 			locations.add(newitem);
 			
 		}
 		
-		x = rand.nextInt(24);
-		y = rand.nextInt(24);
+		x = getRand(0, 24);
+		y = getRand(0, 24);
 		while(!checkOpen(x, y)){
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = getRand(0, 24);
+			y = getRand(0, 24);
 		}
 		Item newitem = new Item(x, y, ">", level);
 		locations.add(newitem);
 		
 		if(level != 0){
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = getRand(0, 24);
+			y = getRand(0, 24);
 			while(map.get(level)[x][y] != "."){
-				x = rand.nextInt(24);
-				y = rand.nextInt(24);
+				x = getRand(0, 24);
+				y = getRand(0, 24);
 			}
 		}
 		newitem = new Item(x, y, "<", level);
 		locations.add(newitem);
 		
 		for(int mon = 0; mon < 6; mon++){
-			x = rand.nextInt(24);
-			y = rand.nextInt(24);
+			x = getRand(0, 24);
+			y = getRand(0, 24);
 			
 			while(!checkOpen(x, y)){
-				x = rand.nextInt(24);
-				y = rand.nextInt(24);
+				x = getRand(0, 24);
+				y = getRand(0, 24);
 			}
 			
-			Enemy newenemy = new Enemy(x, y, rand.nextInt(3)+3, rand.nextInt(2), rand.nextInt(2)+2, "&", level);
+			Enemy newenemy = new Enemy(x, y, level, this);
 			monsters.add(newenemy);
 			
 		}
+	}
+	
+	public boolean isLit(int startx, int starty, int endx, int endy){
+		if(startx == endx){
+			if(endy > starty){
+				while(location(startx, starty) != " " && endy != starty)
+					starty++;
+			}else{
+				while(location(startx, starty) != " " && endy != starty)
+				starty--;
+			}
+			if(location(startx, starty) == " ")
+				return false;
+			return true;
+		}
+		double ratio = (endy - starty)/(endx - startx);
+
+		double ycounter = 0;
+		int yvalue = 0;
+		if(endx > startx){
+			while((startx != endx && yvalue != endy) && location(startx, yvalue) != " "){
+				startx++;
+				ycounter += ratio;
+				yvalue = (int) (ycounter + starty);
+			}
+		}else{
+			while((startx != endx && yvalue != endy) && location(startx, yvalue) != " "){
+				startx--;
+				ycounter += ratio;
+				yvalue = (int) (ycounter + starty);
+			}
+		}
+		if(location(startx, yvalue) == " ")
+			return false;
+		return true;
+		
+	}
+	
+	public void setMessage(String message){
+		this.message = (this.message + message);
 	}
 }
