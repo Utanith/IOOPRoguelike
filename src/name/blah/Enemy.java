@@ -3,6 +3,8 @@ package name.blah;
 import java.util.LinkedList;
 import java.util.Random;
 
+import android.app.Notification;
+
 public class Enemy {
 	int x, y, health, damagemin, damagemax, floor, speed, range, dotpower, dottime, regeneration;
 	boolean alert;
@@ -14,7 +16,6 @@ public class Enemy {
 
 	public Enemy(int x, int y, int level, RoguelikeMap map) {
 		super();
-		Random rand = new Random();
 		this.x = x;
 		this.y = y;
 		this.floor = level;

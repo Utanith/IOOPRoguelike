@@ -139,7 +139,7 @@ public class RoguelikeMap {
 	}
 	
 	public String location(int x, int y){
-		if(x > 23 || y > 23)
+		if(x > 23 || y > 23 || x < 0 || y < 0)
 			return "?";
 		return map.get(level)[x][y];
 	}
@@ -309,7 +309,7 @@ public class RoguelikeMap {
 				x = getRand(0, 24);
 				y = getRand(0, 24);
 			}
-			
+
 			Enemy newenemy = new Enemy(x, y, level, this);
 			monsters.add(newenemy);
 			
