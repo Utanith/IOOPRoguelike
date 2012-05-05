@@ -2,6 +2,8 @@ package name.blah;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -39,6 +41,19 @@ public class Roguelike extends Activity {
         
         tv.setText(map.toString());
         tv.setTypeface(Typeface.MONOSPACE);
+        tv.setTextSize(13);
+        
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Start a new game?");
+        alertDialog.setMessage("Do you want to start a new game?");
+        alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int which) {
+        		//We're starting a new game, no matter the input, because this is a demo of AlertDialog!
+        		dialog.dismiss();
+        	}
+        });
+        
+        alertDialog.show();
         //setContentView(tv);
         
     }
