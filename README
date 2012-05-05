@@ -1,0 +1,5 @@
+Written by Jett Peterson and Whit LaTorra
+
+The application is a roguelike RPG. You play through randomly generated dungeons, killing enemies and progressing through the levels. No game will ever play exactly the same as the last. There are items to pick up, enemies to kill, and infinitely many (Or as many as we can generate) dungeons to explore. Kill stuff and don't die. If you find you don't like the map you're playing, just restart!
+
+Currently, item and monster varieties are limited. Movement isn't exactly intuitive, and there is very limited input outside of movement. Monsters are unable to see things below them on the map. Some crashes/hangs can happen in very special circumstances.
