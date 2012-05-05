@@ -18,6 +18,9 @@ public class Roguelike extends Activity {
 	private Player plr;
 	private TextView dbgMsg;
 	
+    /* 
+     * instantiates the new application
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,9 @@ public class Roguelike extends Activity {
 
     }
     
+    /**
+     * resets the game completely
+     */
     public void restart(View v)
     {
     	tv.setText("Regenerating...");
@@ -110,6 +116,9 @@ public class Roguelike extends Activity {
     }
     */
     
+    /**
+     * when the buttons are pressed call the appropriate function
+     */
     public void movementKeys(View v)
     {
     	switch(v.getId())
@@ -133,9 +142,12 @@ public class Roguelike extends Activity {
     	this.redraw();
     	dbgMsg.setText(map.message + "\nHealth: " + plr.getHealth() + "\n");
     	map.message = " ";
-    	//dbgMsg.append("Location: " + plr.getLocation()[0] + "," + plr.getLocation()[1] + "\n");
+    	
     }
     
+    /**
+     * redraws the map
+     */
     private void redraw()
     {
     	tv.setText(map.toString());

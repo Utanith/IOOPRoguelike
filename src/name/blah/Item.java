@@ -23,6 +23,11 @@ public class Item {
 	int y;
 	String id;
 	int floor;
+	/**
+	 * currently items are only very lightly implemented. With more time we could
+	 *  add equipment but currently items are only ladders and health potions
+	 *  meaning there's very little here.
+	 */
 	public Item(int x, int y, String id, int floor) {
 		super();
 		this.x = x;
