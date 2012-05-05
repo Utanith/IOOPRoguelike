@@ -67,6 +67,7 @@ public class Player {
 			}
 			if(map.isItem(this.x-1, this.y, map.level)){
 				if(map.itemAt(this.x-1, this.y, map.level) == "#"){
+					map.setMessage("You pick up and promptly chug a red potion\n" );
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x-1 && map.locations.get(i).getY() == y)
@@ -75,6 +76,7 @@ public class Player {
 				}
 				if(map.itemAt(this.x-1, this.y, map.level) == ">"){
 					map.level++;
+					map.setMessage("You climb down the narrow ladder\n" );
 					if(map.level > map.maxlevel){
 						map.generateFloor();
 						map.maxlevel++;
@@ -86,9 +88,11 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 				if(map.itemAt(this.x-1, this.y, map.level) == "<"){
 					map.level--;
+					map.setMessage("You clamber up the narrow ladder\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).id == ">" && map.locations.get(i).floor == map.level){
 							x = map.locations.get(i).x;
@@ -96,6 +100,7 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 			}
 			if(map.checkOpen(this.x-1, this.y))
@@ -130,6 +135,7 @@ public class Player {
 			}
 			if(map.isItem(this.x+1, this.y, map.level)){
 				if(map.itemAt(this.x+1, this.y, map.level) == "#"){
+					map.setMessage("You pick up and promptly chug a red potion\n" );
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x+1 && map.locations.get(i).getY() == y)
@@ -138,6 +144,7 @@ public class Player {
 				}
 				if(map.itemAt(this.x+1, this.y, map.level) == ">"){
 					map.level++;
+					map.setMessage("You climb down the narrow ladder\n" );
 					if(map.level > map.maxlevel){
 						map.generateFloor();
 						map.maxlevel++;
@@ -149,9 +156,11 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 				if(map.itemAt(this.x+1, this.y, map.level) == "<"){
 					map.level--;
+					map.setMessage("You clamber up the narrow ladder\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
 							x = map.locations.get(i).x;
@@ -159,6 +168,7 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 			}
 			if(map.checkOpen(this.x+1, this.y))
@@ -196,6 +206,7 @@ public class Player {
 			if(map.isItem(this.x, this.y+1, map.level)){
 				if(map.itemAt(this.x, this.y+1, map.level) == "#"){
 					this.setHealth(this.getHealth() + 5);
+					map.setMessage("You pick up and promptly chug a red potion\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y+1)
 							map.locations.remove(i);
@@ -203,6 +214,7 @@ public class Player {
 				}
 				if(map.itemAt(this.x, this.y+1, map.level) == ">"){
 					map.level++;
+					map.setMessage("You climb down the narrow ladder\n" );
 					if(map.level > map.maxlevel){
 						map.generateFloor();
 						map.maxlevel++;
@@ -214,11 +226,11 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 				if(map.itemAt(this.x, this.y+1, map.level) == "<"){
 					map.level--;
-					x = map.getRand(0, 24);
-					y = map.getRand(0, 24);
+					map.setMessage("You clamber up the narrow ladder\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
 							x = map.locations.get(i).x;
@@ -226,6 +238,7 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 			}
 			if(map.checkOpen(this.x, this.y+1))
@@ -261,6 +274,7 @@ public class Player {
 			}
 			if(map.isItem(this.x, this.y-1, map.level)){
 				if(map.itemAt(this.x, this.y-1, map.level) == "#"){
+					map.setMessage("You pick up and promptly chug a red potion\n" );
 					this.setHealth(this.getHealth() + 5);
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).getX() == x && map.locations.get(i).getY() == y-1)
@@ -273,6 +287,7 @@ public class Player {
 						map.generateFloor();
 						map.maxlevel++;
 					}
+					map.setMessage("You climb down the narrow ladder\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
 							x = map.locations.get(i).x;
@@ -280,9 +295,11 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true; 
 				}
 				if(map.itemAt(this.x, this.y-1, map.level) == "<"){
 					map.level--;
+					map.setMessage("You clamber up the narrow ladder\n" );
 					for(int i = 0; i < map.locations.size(); i++){
 						if(map.locations.get(i).id == "<" && map.locations.get(i).floor == map.level){
 							x = map.locations.get(i).x;
@@ -290,6 +307,7 @@ public class Player {
 						}
 					}
 					map.setPlayer(x, y);
+					return true;
 				}
 			}
 			if(map.checkOpen(this.x, this.y-1))

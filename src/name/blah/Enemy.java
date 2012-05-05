@@ -85,12 +85,12 @@ public class Enemy {
 				id = "k";
 				health = power/3;
 				damagemin = power/5;
-				damagemax = power/5+1;
+				damagemax = power/4+1;
 				break;
 			case 1:
 				name = makeName("rat");
 				health = power/5;
-				damagemin = power/6;
+				damagemin = power/7;
 				damagemax = power/6+1;
 				id = "r";
 				break;
@@ -98,20 +98,20 @@ public class Enemy {
 				name = makeName("zombie");
 				health = power;
 				damagemin = power/8;
-				damagemax = power/8+1;
+				damagemax = power/7+1;
 				id = "z";
 				break;
 			case 3:
 				name = makeName("orc");
 				health = power/3;
-				damagemin = power/4;
+				damagemin = power/5;
 				damagemax = power/4+1;
 				id = "o";
 				break;
 			case 4:
 				name = makeName("snake");
 				health = power/6;
-				damagemin = power/4;
+				damagemin = power/5;
 				damagemax = power/4+1;
 				id = "s";
 				break;
