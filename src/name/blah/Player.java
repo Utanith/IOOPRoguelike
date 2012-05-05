@@ -17,6 +17,24 @@ public class Player {
 	private int health;
 	private int minDamage;
 	private int maxDamage;
+	private int dotdamage;
+	public int getDotdamage() {
+		return dotdamage;
+	}
+
+	public void setDotdamage(int dotdamage) {
+		this.dotdamage = dotdamage;
+	}
+
+	public int getDotlength() {
+		return dotlength;
+	}
+
+	public void setDotlength(int dotlength) {
+		this.dotlength = dotlength;
+	}
+
+	private int dotlength;
 	
 	Player(RoguelikeMap map)
 	{
@@ -46,6 +64,13 @@ public class Player {
 			return false;
 		}
 		map.turn++;
+		if(dotlength != 0){
+			dotlength--;
+			this.health -= dotdamage;
+			if(this.health < 1)
+				this.health = 1;
+			map.setMessage("you're poisoned ");
+		}
 		switch(dir)
 		{
 		case NORTH:

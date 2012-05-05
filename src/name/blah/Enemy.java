@@ -280,6 +280,10 @@ public class Enemy {
 				int damage = map.getRand(damagemin, damagemax);
 				map.setMessage("the " + name + " hits you for " + damage + " damage\n" );
 				player.setHealth(player.getHealth() - damage);
+				if(hasdot){
+					player.setDotdamage(this.dotpower);
+					player.setDotlength(this.dottime);
+				}
 				return;
 			}
 		}
@@ -288,6 +292,10 @@ public class Enemy {
 				int damage = map.getRand(damagemin, damagemax);
 				map.setMessage("the " + name + " hits you for " + damage + " damage\n" );
 				player.setHealth(player.getHealth() - damage);
+				if(hasdot){
+					player.setDotdamage(this.dotpower);
+					player.setDotlength(this.dottime);
+				}
 				return;
 			}
 		}
