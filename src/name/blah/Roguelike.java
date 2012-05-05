@@ -43,7 +43,7 @@ public class Roguelike extends Activity {
         tv.setTypeface(Typeface.MONOSPACE);
         tv.setTextSize(13);
         
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        /*AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Start a new game?");
         alertDialog.setMessage("Do you want to start a new game?");
         alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
@@ -51,7 +51,7 @@ public class Roguelike extends Activity {
         		//We're starting a new game, no matter the input, because this is a demo of AlertDialog!
         		dialog.dismiss();
         	}
-        });
+        });*/
         
         alertDialog.show();
         //setContentView(tv);
