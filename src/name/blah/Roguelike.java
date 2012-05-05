@@ -36,6 +36,7 @@ public class Roguelike extends Activity {
         
         tv.setText(map.toString());
         tv.setTypeface(Typeface.MONOSPACE);
+        tv.setTextSize(13);
         //setContentView(tv);
         
     }

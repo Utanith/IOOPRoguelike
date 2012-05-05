@@ -13,7 +13,7 @@
             android:id="@+id/tableRow1"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="4" >
+            android:layout_weight="300" >
 
             <TextView
                 android:id="@+id/textView1"
@@ -26,7 +26,7 @@
                 android:id="@+id/scrollView1"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight=".30" >
+                android:layout_weight=".50" >
 
                 <TextView
                     android:id="@+id/debugMsg"
@@ -43,7 +43,7 @@
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight=".10"
+            android:layout_weight="5"
             android:gravity="center" >
 
             <LinearLayout
